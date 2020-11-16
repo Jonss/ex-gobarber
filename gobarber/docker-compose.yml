@@ -1,0 +1,21 @@
+version: '3'
+services: 
+    db:
+        image: postgres:11
+        container_name: gobarber_dev_db
+        environment:
+        - POSTGRES_USER=postgres
+        - POSTGRES_PASSWORD=postgres
+        - POSTGRES_DB=gobarber_dev
+        ports:
+        - 5446:5432
+    db_test:
+        image: postgres:11
+        container_name: gobarber_dev_test
+        environment:
+        - POSTGRES_USER=postgres
+        - POSTGRES_PASSWORD=postgres
+        - POSTGRES_DB=gobarber_dev_test
+        ports:
+        - 5444:5432
+        
