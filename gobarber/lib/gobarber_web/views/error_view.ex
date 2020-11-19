@@ -18,6 +18,8 @@ defmodule GobarberWeb.ErrorView do
     %{message: translate_errors(result)}
   end
 
+  def render("422.json", %{result: message}), do: %{message: message}
+
   defp translate_errors(changeset) do
     traverse_errors(changeset, fn {msg, opts} ->
       Enum.reduce(opts, msg, fn {key, value}, acc ->

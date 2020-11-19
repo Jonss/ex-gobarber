@@ -4,7 +4,7 @@ defmodule Gobarber.AppointmentTest do
   alias Gobarber.Appointment
 
   describe "changeset/1" do
-    test "when all params are valid, should return a valid changeset" do
+    test "when all params are valid, should return a valid changeset with normalized hour" do
       params = %{provider: "Jupiter Stein", date: "2020-11-18 19:30:00"}
 
       changeset = Appointment.changeset(params)
@@ -12,7 +12,7 @@ defmodule Gobarber.AppointmentTest do
       assert %Ecto.Changeset{
                changes: %{
                  provider: "Jupiter Stein",
-                 date: ~U[2020-11-18 19:30:00Z]
+                 date: ~U[2020-11-18 19:00:00Z]
                },
                errors: [],
                data: %Gobarber.Appointment{},
@@ -76,7 +76,7 @@ defmodule Gobarber.AppointmentTest do
 
       assert {:ok,
               %Gobarber.Appointment{
-                date: ~U[2020-11-18 19:30:00Z],
+                date: ~U[2020-11-18 19:00:00Z],
                 id: nil,
                 inserted_at: nil,
                 provider: "Jupiter Stein",

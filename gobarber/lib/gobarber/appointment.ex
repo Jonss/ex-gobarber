@@ -25,5 +25,12 @@ defmodule Gobarber.Appointment do
     struct
     |> cast(params, @required_params)
     |> validate_required(@required_params)
+    |> set_date()
   end
+
+  defp set_date(%Ecto.Changeset{valid?: true, changes: %{date: date}} = changeset) do
+    change(changeset, date: %{date| minute: 0})
+  end
+
+  defp set_date(%Ecto.Changeset{valid?: false} = changeset), do: changeset
 end

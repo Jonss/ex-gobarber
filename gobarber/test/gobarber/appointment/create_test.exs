@@ -10,7 +10,7 @@ defmodule Gobarber.Appointment.CreateTest do
 
       assert {:ok,
         %Gobarber.Appointment{
-          date: ~U[2020-11-19 19:32:00Z],
+          date: ~U[2020-11-19 19:00:00Z],
           id: _id,
           provider: "Jupiter Stein",
           inserted_at: _inserted_at,
@@ -31,10 +31,20 @@ defmodule Gobarber.Appointment.CreateTest do
          params: %{"date" => "", "provider" => ""},
          data: %Gobarber.Appointment{}, valid?: false,
           required: [:provider, :date],
-                types: %{date: :utc_datetime, id: :binary_id, inserted_at: :naive_datetime, provider: :string, updated_at: :naive_datetime},
+                types: %{date: :utc_datetime, id: :binary_id, inserted_at: :naive_datetime, provider: :string, updated_at: :naive_datetime}
          }
       } == changeset
 
+    end
+
+    test "when appointment already exists should return :unprocessable" do
+      params = %{provider: "Jupiter Stein", date: "2020-11-19 19:32:00"}
+
+      Create.call(params)
+
+      unprocessable_appointment = Create.call(params)
+
+      assert {:unprocessable, "provider Jupiter Stein is already booked at 2020-11-19 19:00:00Z"} == unprocessable_appointment
     end
   end
 end

@@ -5,6 +5,6 @@ defmodule GobarberWeb.FallbackController do
     conn
     |> put_status(params.status_code)
     |> put_view(GobarberWeb.ErrorView)
-    |> render(params.view, result: params.changeset)
+    |> render(params.view, result: params.response)
   end
 end

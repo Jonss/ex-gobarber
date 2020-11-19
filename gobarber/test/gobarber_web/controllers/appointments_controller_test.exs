@@ -53,5 +53,22 @@ defmodule GobarberWeb.AppointmentsControllerTest do
       assert %{"message" => %{"date" => ["can't be blank"], "provider" => ["can't be blank"]}} ==
                response
     end
+
+    test "when appointment is already booked, should return an unprocessable tuple", %{conn: conn} do
+      params = %{provider: "Jupiter Stein", date: "2020-11-18 16:00:00"}
+
+      conn
+      |> post(Routes.appointments_path(conn, :create, params))
+      |> json_response(:created)
+
+      response =
+        conn
+        |> post(Routes.appointments_path(conn, :create, params))
+        |> json_response(422)
+
+      assert %{"message" => "provider Jupiter Stein is already booked at 2020-11-18 16:00:00Z"} == response
+
+    end
+
   end
 end

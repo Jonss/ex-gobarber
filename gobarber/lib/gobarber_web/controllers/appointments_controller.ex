@@ -16,5 +16,9 @@ defmodule GobarberWeb.AppointmentsController do
   end
 
   defp handle_response({:error, changeset}, _conn, _status_code, _view),
-    do: {:error, %{changeset: changeset, status_code: :bad_request, view: "400.json"}}
+    do: {:error, %{response: changeset, status_code: :bad_request, view: "400.json"}}
+
+  defp handle_response({:unprocessable, message}, _conn, _status_code, _view),
+    do: {:error, %{response: message, status_code: 422, view: "422.json"}}
+
 end
