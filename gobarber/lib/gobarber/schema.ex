@@ -1,0 +1,12 @@
+defmodule Gobarber.Schema do
+
+  defmacro using(_) do
+    quote do
+      use Ecto.Schema
+      import Ecto.Changeset
+
+      @primary_key {:id, :binary_id, autogenerate: true}
+      @foreign_key :binary_id
+    end
+  end
+end

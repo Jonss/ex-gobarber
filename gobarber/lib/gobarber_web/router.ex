@@ -9,6 +9,7 @@ defmodule GobarberWeb.Router do
     pipe_through :api
 
     get "/hello", HelloController, :hello
+    resources "/appointments", AppointmentsController, only: [:create]
   end
 
   # Enables LiveDashboard only for development
