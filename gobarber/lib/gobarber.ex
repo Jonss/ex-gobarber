@@ -9,5 +9,4 @@ defmodule Gobarber do
   alias Gobarber.Appointment
 
   defdelegate create_appointment(params), to: Appointment.Create, as: :call
-
 end

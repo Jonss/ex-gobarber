@@ -1,5 +1,4 @@
 defmodule Gobarber.Schema do
-
   defmacro using(_) do
     quote do
       use Ecto.Schema
