@@ -29,7 +29,7 @@ defmodule Gobarber.Appointment do
   end
 
   defp set_date(%Ecto.Changeset{valid?: true, changes: %{date: date}} = changeset) do
-    change(changeset, date: %{date| minute: 0})
+    change(changeset, date: %{date | minute: 0})
   end
 
   defp set_date(%Ecto.Changeset{valid?: false} = changeset), do: changeset

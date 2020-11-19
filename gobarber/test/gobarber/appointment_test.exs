@@ -89,12 +89,13 @@ defmodule Gobarber.AppointmentTest do
 
       changeset = Appointment.build(params)
 
-      assert {:error, %Ecto.Changeset{
-        action: :insert,
-        changes: %{date: ~U[2020-11-18 18:00:00Z]},
-         errors: [provider: {"can't be blank", [validation: :required]}],
-        valid?: false}}
-       = changeset
+      assert {:error,
+              %Ecto.Changeset{
+                action: :insert,
+                changes: %{date: ~U[2020-11-18 18:00:00Z]},
+                errors: [provider: {"can't be blank", [validation: :required]}],
+                valid?: false
+              }} = changeset
     end
 
     test "when date is invalid should return an :error" do
@@ -103,13 +104,12 @@ defmodule Gobarber.AppointmentTest do
       changeset = Appointment.build(params)
 
       assert {:error,
-        %Ecto.Changeset{
-          action: :insert,
-          changes: %{provider: "Jupiter Stein"},
-          errors: [date: {"is invalid",  [type: :utc_datetime, validation: :cast]}],
-          valid?: false
-        }
-      } = changeset
+              %Ecto.Changeset{
+                action: :insert,
+                changes: %{provider: "Jupiter Stein"},
+                errors: [date: {"is invalid", [type: :utc_datetime, validation: :cast]}],
+                valid?: false
+              }} = changeset
     end
 
     test "when date and provider are empty should return an :error" do
@@ -118,14 +118,15 @@ defmodule Gobarber.AppointmentTest do
       changeset = Appointment.build(params)
 
       assert {:error,
-        %Ecto.Changeset{
-          action: :insert,
-          changes: %{},
-          errors: [provider: {"can't be blank", [validation: :required]}, date: {"can't be blank", [validation: :required]}],
-          valid?: false
-        }
-      } = changeset
+              %Ecto.Changeset{
+                action: :insert,
+                changes: %{},
+                errors: [
+                  provider: {"can't be blank", [validation: :required]},
+                  date: {"can't be blank", [validation: :required]}
+                ],
+                valid?: false
+              }} = changeset
     end
-
   end
 end

@@ -10,8 +10,11 @@ defmodule Gobarber.Appointment.Create do
 
   defp create_appointment({:ok, struct}) do
     case Repo.get_by(Appointment, date: struct.date, provider: struct.provider) do
-      nil -> Repo.insert(struct)
-      _appointment -> {:unprocessable, "provider #{struct.provider} is already booked at #{struct.date}"}
+      nil ->
+        Repo.insert(struct)
+
+      _appointment ->
+        {:unprocessable, "provider #{struct.provider} is already booked at #{struct.date}"}
     end
   end
 

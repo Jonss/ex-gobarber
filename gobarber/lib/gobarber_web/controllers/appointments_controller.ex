@@ -9,10 +9,15 @@ defmodule GobarberWeb.AppointmentsController do
     |> handle_response(conn, :created, "created.json")
   end
 
-  defp handle_response({:ok, appointment}, conn, status_code, view) do
+  def index(conn, _params) do
+    appointments = Gobarber.fetch_appointments()
+    handle_response({:ok, appointments}, conn, :ok, "list.json")
+  end
+
+  defp handle_response({:ok, response}, conn, status_code, view) do
     conn
     |> put_status(status_code)
-    |> render(view, appointment: appointment)
+    |> render(view, response: response)
   end
 
   defp handle_response({:error, changeset}, _conn, _status_code, _view),
@@ -20,5 +25,4 @@ defmodule GobarberWeb.AppointmentsController do
 
   defp handle_response({:unprocessable, message}, _conn, _status_code, _view),
     do: {:error, %{response: message, status_code: 422, view: "422.json"}}
-
 end
