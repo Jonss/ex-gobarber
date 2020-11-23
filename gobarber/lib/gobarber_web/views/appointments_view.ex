@@ -1,11 +1,14 @@
 defmodule GobarberWeb.AppointmentsView do
   use GobarberWeb, :view
   alias Gobarber.Appointment
+  alias Gobarber.User
 
-  def render("created.json", %{response: %Appointment{id: id, provider: provider, date: date}}) do
+  def render("created.json", %{
+        response: %Appointment{id: id, provider: %User{name: name}, date: date}
+      }) do
     %{
       id: id,
-      provider: provider,
+      provider: name,
       date: date
     }
   end
@@ -16,7 +19,7 @@ defmodule GobarberWeb.AppointmentsView do
         Enum.map(response, fn r ->
           %{
             id: r.id,
-            provider: r.provider,
+            provider: r.provider.name,
             date: r.date
           }
         end)

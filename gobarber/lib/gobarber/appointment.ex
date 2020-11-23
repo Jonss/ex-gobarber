@@ -1,12 +1,14 @@
 defmodule Gobarber.Appointment do
   use Ecto.Schema
   import Ecto.Changeset
+  alias Gobarber.User
 
   @primary_key {:id, :binary_id, autogenerate: true}
+  @foreign_key_type Ecto.UUID
 
   schema "appointments" do
-    field :provider, :string
     field :date, :utc_datetime
+    belongs_to :provider, User
     timestamps()
   end
 
@@ -16,7 +18,7 @@ defmodule Gobarber.Appointment do
     |> apply_action(:insert)
   end
 
-  @required_params [:provider, :date]
+  @required_params [:date, :provider_id]
 
   def changeset(params), do: create_changeset(%__MODULE__{}, params)
   def changeset(appointment, params), do: create_changeset(appointment, params)
@@ -24,6 +26,7 @@ defmodule Gobarber.Appointment do
   defp create_changeset(struct, params) do
     struct
     |> cast(params, @required_params)
+    |> foreign_key_constraint(:provider_id)
     |> validate_required(@required_params)
     |> set_date()
   end

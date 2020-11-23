@@ -10,6 +10,7 @@ defmodule GobarberWeb.Router do
 
     get "/hello", HelloController, :hello
     resources "/appointments", AppointmentsController, only: [:create, :index]
+    resources "/users", UsersController, only: [:create]
   end
 
   # Enables LiveDashboard only for development
