@@ -8,6 +8,9 @@ defmodule Gobarber.User.Create do
     |> handle_create()
   end
 
-  defp handle_create({:ok, data}), do: Repo.insert(data)
+  defp handle_create({:ok, changeset}) do
+    Repo.insert(changeset)
+  end
+
   defp handle_create({:error, changeset}), do: {:error, changeset}
 end

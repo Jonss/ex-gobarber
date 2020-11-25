@@ -9,25 +9,22 @@ defmodule Gobarber.UserTest do
 
       result = User.build(params)
 
-      assert {:ok,
-              %Gobarber.User{
-                email: "jupiter.stein@gmail.com",
-                id: nil,
-                inserted_at: nil,
-                name: "Jupiter Stein",
-                password: "123456",
-                password_hash: _password,
-                updated_at: nil
-              }} = result
-    end
-
-    test "when user already exists should return a changeset with error" do
-      params = %{name: "Jupiter Stein", email: "jupiter.stein@gmail.com", password: "123456"}
-
-      User.Create.call(params)
-      result = User.Create.call(params)
-
-      assert "yey" = result
+      assert {
+               :ok,
+               %Ecto.Changeset{
+                 action: nil,
+                 changes: %{
+                   email: "jupiter.stein@gmail.com",
+                   name: "Jupiter Stein",
+                   password: "123456",
+                   password_hash: _password_hash
+                 },
+                 errors: [],
+                 data: %Gobarber.User{},
+                 valid?: true
+               }
+             } =
+               result
     end
   end
 end

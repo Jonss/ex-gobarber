@@ -36,66 +36,69 @@ defmodule Gobarber.Appointment.CreateTest do
       changeset = Create.call(params)
 
       assert {
-        :error,
-        %Ecto.Changeset{
-          action: :insert,
-          changes: %{},
-          constraints: [
-            %{
-              constraint: "appointments_provider_id_fkey",
-              error_message: "does not exist",
-              error_type: :foreign,
-              field: :provider_id,
-              match: :exact,
-              type: :foreign_key
-            }
-          ],
-          data: %Gobarber.Appointment{
-            date: nil,
-            id: nil,
-            inserted_at: nil,
-            provider: _provider_not_associated,
-            provider_id: nil,
-            updated_at: nil
-          },
-          empty_values: [""],
-          errors: [date: {"can't be blank", [validation: :required]}, provider_id: {"can't be blank", [validation: :required]}],
-          filters: %{},
-          params: %{"date" => "", "provider_id" => ""},
-          prepare: [],
-          repo: nil,
-          repo_opts: [],
-          required: [:date, :provider_id],
-          types: %{
-            date: :utc_datetime,
-            id: :binary_id,
-            inserted_at: :naive_datetime,
-            provider: {
-              :assoc,
-              %Ecto.Association.BelongsTo{
-                cardinality: :one,
-                defaults: [],
-                field: :provider,
-                on_cast: nil,
-                on_replace: :raise,
-                ordered: false,
-                owner: Gobarber.Appointment,
-                owner_key: :provider_id,
-                queryable: Gobarber.User,
-                related: Gobarber.User,
-                related_key: :id,
-                relationship: :parent,
-                unique: true,
-                where: []
-              }
-            },
-            provider_id: Ecto.UUID,
-            updated_at: :naive_datetime
-          },
-          valid?: false,
-          validations: []
-        }
-      } = changeset
+               :error,
+               %Ecto.Changeset{
+                 action: :insert,
+                 changes: %{},
+                 constraints: [
+                   %{
+                     constraint: "appointments_provider_id_fkey",
+                     error_message: "does not exist",
+                     error_type: :foreign,
+                     field: :provider_id,
+                     match: :exact,
+                     type: :foreign_key
+                   }
+                 ],
+                 data: %Gobarber.Appointment{
+                   date: nil,
+                   id: nil,
+                   inserted_at: nil,
+                   provider: _provider_not_associated,
+                   provider_id: nil,
+                   updated_at: nil
+                 },
+                 empty_values: [""],
+                 errors: [
+                   date: {"can't be blank", [validation: :required]},
+                   provider_id: {"can't be blank", [validation: :required]}
+                 ],
+                 filters: %{},
+                 params: %{"date" => "", "provider_id" => ""},
+                 prepare: [],
+                 repo: nil,
+                 repo_opts: [],
+                 required: [:date, :provider_id],
+                 types: %{
+                   date: :utc_datetime,
+                   id: :binary_id,
+                   inserted_at: :naive_datetime,
+                   provider: {
+                     :assoc,
+                     %Ecto.Association.BelongsTo{
+                       cardinality: :one,
+                       defaults: [],
+                       field: :provider,
+                       on_cast: nil,
+                       on_replace: :raise,
+                       ordered: false,
+                       owner: Gobarber.Appointment,
+                       owner_key: :provider_id,
+                       queryable: Gobarber.User,
+                       related: Gobarber.User,
+                       related_key: :id,
+                       relationship: :parent,
+                       unique: true,
+                       where: []
+                     }
+                   },
+                   provider_id: Ecto.UUID,
+                   updated_at: :naive_datetime
+                 },
+                 valid?: false,
+                 validations: []
+               }
+             } = changeset
     end
 
     test "when appointment already exists should return :unprocessable", %{user: user} do

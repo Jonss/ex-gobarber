@@ -12,7 +12,7 @@ defmodule Gobarber.User do
     field :email, :string
     field :password_hash, :string
     field :password, :string, virtual: true
-    has_many :appointments, Appointment
+    has_many :appointments, Appointment, foreign_key: :provider_id
 
     timestamps()
   end
@@ -20,7 +20,7 @@ defmodule Gobarber.User do
   def build(params) do
     params
     |> changeset()
-    |> apply_action(:insert)
+    |> handle_changeset()
   end
 
   def changeset(params), do: create_changeset(%__MODULE__{}, params)
@@ -31,9 +31,8 @@ defmodule Gobarber.User do
   def create_changeset(struct, params) do
     struct
     |> cast(params, @required_fields)
-    |> unique_constraint(:email, name: "users_email_index")
     |> validate_required(@required_fields)
-    |> validate_length(:password, min: 6)
+    |> unique_constraint(:email)
     |> put_password_hash()
   end
 
@@ -42,4 +41,7 @@ defmodule Gobarber.User do
        ) do
     change(changeset, Argon2.add_hash(password))
   end
+
+  defp handle_changeset(%Ecto.Changeset{valid?: true} = changeset), do: {:ok, changeset}
+  defp handle_changeset(%Ecto.Changeset{valid?: false} = changeset), do: {:error, changeset}
 end
