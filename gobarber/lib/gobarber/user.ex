@@ -32,9 +32,12 @@ defmodule Gobarber.User do
     struct
     |> cast(params, @required_fields)
     |> validate_required(@required_fields)
+    |> validate_format(:email, ~r/@/)
     |> unique_constraint(:email)
     |> put_password_hash()
   end
+
+  defp put_password_hash(%Ecto.Changeset{valid?: false} = changeset), do: changeset
 
   defp put_password_hash(
          %Ecto.Changeset{valid?: true, changes: %{password: password}} = changeset

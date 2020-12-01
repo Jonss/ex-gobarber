@@ -76,7 +76,7 @@ defmodule Gobarber.User.CreateTest do
                    updated_at: :naive_datetime
                  },
                  valid?: false,
-                 validations: []
+                 validations: [{:email, {:format, ~r/@/}}]
                }
              } = response
     end
