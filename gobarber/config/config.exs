@@ -31,9 +31,9 @@ config :phoenix, :json_library, Jason
 import_config "#{Mix.env()}.exs"
 
 config :gobarber, GobarberWeb.Auth.Guardian,
-       issuer: "gobarber",
-       secret_key: "LXEjlz+JU52lYiL8Xlec2a0GlQezdupPq6+My79W3br7xd8S2AS9zqxd8Ow2bbbB"
+  issuer: "gobarber",
+  secret_key: "LXEjlz+JU52lYiL8Xlec2a0GlQezdupPq6+My79W3br7xd8S2AS9zqxd8Ow2bbbB"
 
 config :gobarber, GobarberWeb.Auth.Pipeline,
-      module: GobarberWeb.Auth.Guardian,
-      error_handler: GobarberWeb.Auth.ErrorHandler
+  module: GobarberWeb.Auth.Guardian,
+  error_handler: GobarberWeb.Auth.ErrorHandler

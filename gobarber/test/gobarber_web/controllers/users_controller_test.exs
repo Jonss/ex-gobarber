@@ -14,7 +14,14 @@ defmodule GobarberWeb.UsersControllerTest do
         |> post(Routes.users_path(conn, :create, params))
         |> json_response(:created)
 
-      assert %{"id" => _id, "email" => "jupiter.stein@gmail.com", "created_at" => _created_at} = response
+      assert %{
+               "token" => _token,
+               "user" => %{
+                 "id" => _id,
+                 "email" => "jupiter.stein@gmail.com",
+                 "created_at" => _created_at
+               }
+             } = response
     end
 
     test "when email are invalid should return an error", %{conn: conn} do
@@ -26,7 +33,6 @@ defmodule GobarberWeb.UsersControllerTest do
         |> json_response(:bad_request)
 
       assert %{"message" => %{"email" => ["has invalid format"]}} == response
-
     end
 
     test "when user is already registered should return an error", %{conn: conn} do
@@ -37,7 +43,14 @@ defmodule GobarberWeb.UsersControllerTest do
         |> post(Routes.users_path(conn, :create, params))
         |> json_response(:created)
 
-      assert %{"id" => _id, "email" => "jupiter.stein@gmail.com", "created_at" => _created_at} = response
+      assert %{
+               "token" => _token,
+               "user" => %{
+                 "id" => _id,
+                 "email" => "jupiter.stein@gmail.com",
+                 "created_at" => _created_at
+               }
+             } = response
 
       response =
         conn
@@ -46,6 +59,5 @@ defmodule GobarberWeb.UsersControllerTest do
 
       assert %{"message" => %{"email" => ["has already been taken"]}} == response
     end
-
   end
 end

@@ -23,8 +23,7 @@ defmodule Gobarber.UserTest do
                  data: %Gobarber.User{},
                  valid?: true
                }
-             } =
-               result
+             } = result
     end
   end
 end

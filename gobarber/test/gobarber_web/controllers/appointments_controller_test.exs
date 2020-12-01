@@ -1,5 +1,6 @@
 defmodule GobarberWeb.AppointmentsControllerTest do
   use GobarberWeb.ConnCase
+  import GobarberWeb.Auth.Guardian
 
   alias Gobarber.Appointment
   alias Gobarber.User.Create, as: CreateUser
@@ -11,6 +12,10 @@ defmodule GobarberWeb.AppointmentsControllerTest do
         email: "jupiter.stein@gmail.com",
         password: "123456"
       })
+
+    {:ok, token, _claims} = encode_and_sign(user)
+
+    conn = put_req_header(conn, "authorization", "Bearer #{token}")
 
     {:ok, conn: conn, user: user}
   end

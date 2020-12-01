@@ -15,12 +15,14 @@ defmodule Gobarber.User.FetchTest do
       user = FetchUser.call(user_id)
 
       assert %Gobarber.User{
-        email: "jupiter.stein@gmail.com",
-        id: _id, inserted_at: _inserted_at,
-        name: "Jupiter Stein",
-        password: nil,
-        password_hash: _hash,
-        updated_at: _updated_at} = user
+               email: "jupiter.stein@gmail.com",
+               id: _id,
+               inserted_at: _inserted_at,
+               name: "Jupiter Stein",
+               password: nil,
+               password_hash: _hash,
+               updated_at: _updated_at
+             } = user
     end
 
     test "when user does not exists, should return nil" do

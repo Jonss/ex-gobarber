@@ -3,9 +3,9 @@ defmodule GobarberWeb.UsersView do
   alias Gobarber.User
 
   def render("created.json", %{
-      response: %User{id: id, email: email, inserted_at: inserted_at},
-      token: token
-  }) do
+        response: %User{id: id, email: email, inserted_at: inserted_at},
+        token: token
+      }) do
     %{
       user: %{
         id: id,
@@ -21,6 +21,4 @@ defmodule GobarberWeb.UsersView do
       token: "Bearer #{params.token}"
     }
   end
-
-
 end
