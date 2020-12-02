@@ -18,8 +18,8 @@ defmodule GobarberWeb.AppointmentsView do
       appointments:
         Enum.map(response, fn r ->
           %{
-            id: r["id"],
-            provider: r["provider"]["name"],
+            id: r.id,
+            provider: r.provider.name,
             date: r.date
           }
         end)
