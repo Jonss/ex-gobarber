@@ -15,5 +15,10 @@
 
 ## How to run the app?
 
-* Execute `make env-up`
+* First of all, create a file called .env.dev. At the moment, this is the structure:
+```
+export AUTH_SECRET=smth_here
+```
+* Execute `make env-up` |> `source .env.dev`
 * Then execute `mix ecto.setup` |> `mix phx.server` |> Now you can visit [`localhost:4000`](http://localhost:4000) from your browser.
+
