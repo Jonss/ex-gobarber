@@ -18,6 +18,10 @@ defmodule GobarberWeb.ErrorView do
     %{message: translate_errors(result)}
   end
 
+  def render("401.json", _result) do
+    %{}
+  end
+
   def render("422.json", %{result: message}), do: %{message: message}
 
   defp translate_errors(changeset) do

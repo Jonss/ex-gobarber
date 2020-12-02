@@ -1,15 +1,28 @@
 defmodule GobarberWeb.AppointmentsControllerTest do
   use GobarberWeb.ConnCase
+  import GobarberWeb.Auth.Guardian
 
   alias Gobarber.Appointment
+  alias Gobarber.User.Create, as: CreateUser
+
+  setup %{conn: conn} do
+    {:ok, user} =
+      CreateUser.call(%{
+        name: "Jupiter Stein",
+        email: "jupiter.stein@gmail.com",
+        password: "123456"
+      })
+
+    {:ok, token, _claims} = encode_and_sign(user)
+
+    conn = put_req_header(conn, "authorization", "Bearer #{token}")
+
+    {:ok, conn: conn, user: user}
+  end
 
   describe "create/2" do
-    setup %{conn: conn} do
-      {:ok, conn: conn}
-    end
-
-    test "when params is valid should return an appointment", %{conn: conn} do
-      params = %{provider: "Jupiter Stein", date: "2020-11-18 16:00:00"}
+    test "when params is valid should return an appointment", %{conn: conn, user: user} do
+      params = %{provider_id: user.id, date: "2020-11-18 16:00:00"}
 
       response =
         conn
@@ -21,18 +34,18 @@ defmodule GobarberWeb.AppointmentsControllerTest do
     end
 
     test "when provider is empty, should return 400 status code", %{conn: conn} do
-      params = %{provider: "", date: "2020-11-18 16:00:00"}
+      params = %{provider_id: "", date: "2020-11-18 16:00:00"}
 
       response =
         conn
         |> post(Routes.appointments_path(conn, :create, params))
         |> json_response(:bad_request)
 
-      assert %{"message" => %{"provider" => ["can't be blank"]}} == response
+      assert %{"message" => %{"provider_id" => ["can't be blank"]}} == response
     end
 
-    test "when date is invalid, should return 400 status code", %{conn: conn} do
-      params = %{provider: "Jupiter Stein", date: "2020-11-18"}
+    test "when date is invalid, should return 400 status code", %{conn: conn, user: user} do
+      params = %{provider_id: user.id, date: "2020-11-18"}
 
       response =
         conn
@@ -43,19 +56,22 @@ defmodule GobarberWeb.AppointmentsControllerTest do
     end
 
     test "when date and provider are empty, should return 400 status code", %{conn: conn} do
-      params = %{provider: "", date: ""}
+      params = %{provider_id: "", date: ""}
 
       response =
         conn
         |> post(Routes.appointments_path(conn, :create, params))
         |> json_response(:bad_request)
 
-      assert %{"message" => %{"date" => ["can't be blank"], "provider" => ["can't be blank"]}} ==
+      assert %{"message" => %{"date" => ["can't be blank"], "provider_id" => ["can't be blank"]}} ==
                response
     end
 
-    test "when appointment is already booked, should return an unprocessable tuple", %{conn: conn} do
-      params = %{provider: "Jupiter Stein", date: "2020-11-18 16:00:00"}
+    test "when appointment is already booked, should return an unprocessable tuple", %{
+      conn: conn,
+      user: user
+    } do
+      params = %{provider_id: user.id, date: "2020-11-18 16:00:00"}
 
       conn
       |> post(Routes.appointments_path(conn, :create, params))
@@ -81,8 +97,8 @@ defmodule GobarberWeb.AppointmentsControllerTest do
       assert %{"appointments" => []} == response
     end
 
-    test "when has appointments, should return an apointment list", %{conn: conn} do
-      params = %{provider: "Jupiter Stein", date: "2020-11-18 16:32:00"}
+    test "when has appointments, should return an apointment list", %{conn: conn, user: user} do
+      params = %{provider_id: user.id, date: "2020-11-18 16:32:00"}
       Appointment.Create.call(params)
 
       response =

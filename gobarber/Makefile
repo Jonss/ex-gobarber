@@ -1,7 +1,10 @@
 env-up:
 	docker-compose up -d --build db
 
-env-test:
+env-down:
+	docker-compose down
+
+test-up:
 	docker-compose up -d --build db_test
 
 run-local:

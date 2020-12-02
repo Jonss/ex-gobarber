@@ -29,3 +29,11 @@ config :phoenix, :json_library, Jason
 # Import environment specific config. This must remain at the bottom
 # of this file so it overrides the configuration defined above.
 import_config "#{Mix.env()}.exs"
+
+config :gobarber, GobarberWeb.Auth.Guardian,
+  issuer: "gobarber",
+  secret_key: System.get_env("AUTH_SECRET")
+
+config :gobarber, GobarberWeb.Auth.Pipeline,
+  module: GobarberWeb.Auth.Guardian,
+  error_handler: GobarberWeb.Auth.ErrorHandler
