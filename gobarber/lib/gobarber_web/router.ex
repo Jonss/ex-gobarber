@@ -9,6 +9,19 @@ defmodule GobarberWeb.Router do
     plug GobarberWeb.Auth.Pipeline
   end
 
+  pipeline :static do
+    plug Plug.Static,
+      at: "/files",
+      from: {:gobarber, "priv/static/tmp"}
+  end
+
+  scope "/", GobarberWeb do
+    scope "/files" do
+      pipe_through :static
+      get "/*path", ErrorController, :notfound
+    end
+  end
+
   scope "/api", GobarberWeb do
     pipe_through :api
 
@@ -21,6 +34,7 @@ defmodule GobarberWeb.Router do
     pipe_through [:api, :auth]
 
     resources "/appointments", AppointmentsController, only: [:create, :index]
+    patch "/users/avatar", UsersController, :avatar
   end
 
   # Enables LiveDashboard only for development

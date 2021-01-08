@@ -17,6 +17,13 @@ defmodule GobarberWeb.UsersController do
     |> handle_auth_response(conn)
   end
 
+  def avatar(conn, %{"avatar" => avatar}) do
+    email = conn.private.guardian_default_claims["sub"]
+
+    Gobarber.create_avatar(avatar, email)
+    |> handle_response(conn, :ok, "update.json")
+  end
+
   defp handle_auth_response({:error, status_code}, _conn),
     do: {:error, %{response: "", status_code: status_code, view: "401.json"}}
 
