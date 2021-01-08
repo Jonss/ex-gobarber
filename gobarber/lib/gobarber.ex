@@ -14,4 +14,6 @@ defmodule Gobarber do
 
   defdelegate fetch_user_by_id(id), to: User.Fetch, as: :call
   defdelegate fetch_user_by_email(id), to: User.FetchByEmail, as: :call
+
+  defdelegate create_avatar(avatar, id), to: User.Avatar, as: :call
 end

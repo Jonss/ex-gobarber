@@ -21,4 +21,16 @@ defmodule GobarberWeb.UsersView do
       token: "Bearer #{token}"
     }
   end
+
+  def render("update.json", %{response: %User{id: id, email: email, inserted_at: inserted_at, avatar: avatar}}) do
+    %{
+      user: %{
+        id: id,
+        email: email,
+        created_at: inserted_at,
+        avatar: avatar,
+      }
+    }
+  end
+
 end

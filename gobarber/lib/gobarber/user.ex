@@ -12,6 +12,7 @@ defmodule Gobarber.User do
     field :email, :string
     field :password_hash, :string
     field :password, :string, virtual: true
+    field :avatar, :string
     has_many :appointments, Appointment, foreign_key: :provider_id
 
     timestamps()
@@ -25,6 +26,15 @@ defmodule Gobarber.User do
 
   def changeset(params), do: create_changeset(%__MODULE__{}, params)
   def changeset(user, params), do: create_changeset(user, params)
+
+  @avatar_required_fields [:id, :email, :avatar]
+
+  def update_changeset(struct, params) do
+    struct
+    |> cast(params, @avatar_required_fields)
+    |> validate_required(@avatar_required_fields)
+  end
+
 
   @required_fields [:name, :email, :password]
 
