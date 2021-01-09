@@ -4,13 +4,10 @@ defmodule Gobarber.User.Avatar do
 
   def call(avatar, email) do
     file_name = "#{email}-#{avatar.filename}"
-    path = "priv/static/tmp/#{file_name}"
-
-    path = Path.absname(path)
-    IO.inspect(path)
+    path = Path.absname("priv/static/tmp/#{file_name}")
 
     avatar.path
-    |> File.cp(Path.absname(path))
+    |> File.cp(path)
     |> handle_file(file_name, email)
   end
 
@@ -26,7 +23,4 @@ defmodule Gobarber.User.Avatar do
   defp handle_file({:error, :enoent}, _path, _email) do
     {:error, "image invalid"}
   end
-
-
-
 end

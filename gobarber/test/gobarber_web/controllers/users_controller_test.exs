@@ -115,7 +115,44 @@ defmodule GobarberWeb.UsersControllerTest do
         |> post(Routes.users_path(conn, :authenticate, params))
         |> json_response(:unauthorized)
 
-      assert %{} = response
+      assert %{} == response
+    end
+  end
+
+  describe "avatar/2" do
+    test "should send an avatar image and get success", %{conn: conn} do
+      avatar = %Plug.Upload{
+        path: "test/fixtures/jupiter-avatar.jpeg",
+        filename: "jupiter-avatar.jpeg"}
+
+      response =
+        conn
+        |> put_req_header("content-type", "multipart/form-data")
+        |> patch("/api/users/avatar", %{:avatar => avatar})
+        |> json_response(:ok)
+
+      assert %{
+        "user" => %{
+          "avatar" => "jupiter.stein_token@gmail.com-jupiter-avatar.jpeg",
+          "created_at" => _created_at,
+          "email" => "jupiter.stein_token@gmail.com",
+          "id" => _id
+        }
+      } = response
+    end
+
+    test "should send an avatar image and get bad request", %{conn: conn} do
+      avatar = %Plug.Upload{
+        path: "test/fixtures/not-jupiter-avatar.jpeg",
+        filename: "not-jupiter-avatar.jpeg"}
+
+      response =
+        conn
+        |> put_req_header("content-type", "multipart/form-data")
+        |> patch("/api/users/avatar", %{:avatar => avatar})
+        |> json_response(:bad_request)
+
+      assert %{"errors" => %{"detail" => "Bad Request"}} = response
     end
   end
 end
