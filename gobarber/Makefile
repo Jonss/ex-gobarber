@@ -4,8 +4,11 @@ env-up:
 env-down:
 	docker-compose down
 
-test-up:
+env-test:
 	docker-compose up -d --build db_test
+
+test: env-test
+	mix test
 
 run-local:
 	mix phx.server

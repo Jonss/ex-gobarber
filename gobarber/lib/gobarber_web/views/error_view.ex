@@ -18,6 +18,10 @@ defmodule GobarberWeb.ErrorView do
     %{message: translate_errors(result)}
   end
 
+  def render("500.json", %{result: %Ecto.Changeset{} = result}) do
+    %{message: translate_errors(result)}
+  end
+
   def render("401.json", _result) do
     %{}
   end
