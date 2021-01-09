@@ -25,7 +25,6 @@ defmodule GobarberWeb.Router do
   scope "/api", GobarberWeb do
     pipe_through :api
 
-    get "/hello", HelloController, :hello
     post "/users/auth", UsersController, :authenticate
     post "/users", UsersController, :create
   end

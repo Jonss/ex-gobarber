@@ -18,7 +18,8 @@ defmodule GobarberWeb.UsersView do
 
   def render("sign_in.json", %{token: token}) do
     %{
-      token: "Bearer #{token}"
+      token: "#{token}",
+      type: "Bearer"
     }
   end
 

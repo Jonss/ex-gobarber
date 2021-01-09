@@ -6,6 +6,9 @@ defmodule Gobarber.User.Avatar do
     file_name = "#{email}-#{avatar.filename}"
     path = "priv/static/tmp/#{file_name}"
 
+    path = Path.absname(path)
+    IO.inspect(path)
+
     avatar.path
     |> File.cp(Path.absname(path))
     |> handle_file(file_name, email)

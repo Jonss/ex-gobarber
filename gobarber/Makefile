@@ -10,6 +10,9 @@ env-test:
 test: env-test
 	mix test
 
+cover: env-test
+	mix test --cover
+
 run-local:
 	mix phx.server
 
